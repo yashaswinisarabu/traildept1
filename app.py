@@ -5,7 +5,7 @@ import spacy
 from flask import session
 from database import uloginact, ureg, storedata, aaddmeeting, getvoices, meetingnames, storecombinedchats, getcombinedchats
 from datetime import datetime
-nlp = spacy.load('en')
+nlp = spacy.load("en_core_web_sm")
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
