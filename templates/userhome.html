@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Online Meeting</title>
+    <link rel="stylesheet" href="../static/stylesheets/navstyle.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/
+      css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/
+      css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <section class="top-nav">
+      <a href="" style="text-decoration: none;color:white"
+        ><div class="logo">
+          Online Meeting
+        </div></a
+      >
+      <input id="menu-toggle" type="checkbox" />
+      <label class="menu-button-container" for="menu-toggle">
+        <div class="menu-button"></div>
+      </label>
+      <ul class="menu">
+        <li class="active"><a href="/home">Home</a></li>
+        <li><a href="/summarized">Summarized Data</a></li>
+        <li><a href="/index">Logout</a></li>
+      </ul>
+    </section>
+
+    <div id="result" align="center">
+      <br>
+     <label style="font-size: 15px; color: black">Speech Input:</label>
+      <form action = "/store" method = "POST">
+    <textarea name="speechData" id="result1" cols="30"
+    rows="10"></textarea></br>
+<br>
+<select name="meeting" id="">
+    {%if data%} {%for mname in data%}
+    <option value="{{mname[0]}}">{{mname[0]}}</option>
+    {%endfor%} {% endif %}
+</select><br><br><br>
+        <div style="position:absolute; right:52%;border:1px solid black;
+        padding:5px 8px" onclick="startConverting()"><i class="fa fa-microphone" >
+        </i></div>
+    <!-- click this button to stop converting-->
+    <button style="position:absolute; left:51%;" onclick="stopConverting();">
+    <i class="fa fa-remove"></i></button>
+  </br></br>
+         <p><input type = "submit" value = "submit" /></p>
+      </form>
+      
+    <script type="text/javascript">
+    
+    var overlay = document.getElementById("overlay");
+    
+    
+      var r = document.getElementById('result1');
+      var speechRecognizer = new webkitSpeechRecognition();
+      
+      //function to start listening to voice and then convert it to text
+      function startConverting () {
+        if('webkitSpeechRecognition' in window){
+          
+          speechRecognizer.continuous = true;
+          speechRecognizer.interimResults = true;
+          speechRecognizer.lang = 'en-IN';
+          speechRecognizer.start();
+          var finalTranscripts = '';
+          speechRecognizer.onresult = function(event){
+            var interimTranscripts = '';
+            for(var i = event.resultIndex; i < event.results.length; i++){
+              var transcript = event.results[i][0].transcript;
+              transcript.replace("\n", "<br>");
+              if(event.results[i].isFinal){
+                finalTranscripts += transcript;
+              }else{
+                interimTranscripts += transcript;
+              }
+            }
+            r.value = finalTranscripts + interimTranscripts ;
+          };
+          speechRecognizer.onerror = function (event) {
+          };
+        }else{
+          r.innerHTML = 'No browser support. Please upgrade your browser';
+        }
+      }
+      //function to stop listening
+      function stopConverting()
+      {
+        speechRecognizer.stop();
+      }
+    
+    </script>
+    <br>
+    </br>
+  </body>
+</html>

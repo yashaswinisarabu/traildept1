@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Online Meeting</title>
+    <link rel="stylesheet" href="../static/stylesheets/navstyle.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="../static/stylesheets/loginstyle.css" />
+  </head>
+  <body>
+    <section class="top-nav">
+      <a href="" style="text-decoration: none;color:white"
+        ><div class="logo">
+          Online Meeting
+        </div></a
+      >
+      <input id="menu-toggle" type="checkbox" />
+      <label class="menu-button-container" for="menu-toggle">
+        <div class="menu-button"></div>
+      </label>
+      <ul class="menu">
+        <li><a href="/ahome">Home</a></li>
+        <li><a href="/addmeeting">Add Meeting</a></li>
+        <li class="active"><a href="/voices">Voice Chats</a></li>
+        <!-- <li><a href="">Combine Voices</a></li> -->
+        <li><a href="/index">Logout</a></li>
+      </ul>
+    </section>
+    <br />
+    <div class="text-center">
+      <form action="/getvoicedata" method="POST">
+        <select name="meeting" class="custom-select" style="width:30%">
+          <option selected value="">Select Meeting</option>
+          {%if data%} {%for mname in data%}
+          <option value="{{mname[0]}}">{{mname[0]}}</option>
+          {%endfor%} {% endif %}
+        </select>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+    {% if result %}
+    <div class="container mt-4" style="width:90%">
+      {% for name,voice,meeting,time in result%}
+      <div style="margin: auto">
+        <p class="text-justify">
+          {{voice}}
+        </p>
+        <p class="text-right">{{name}}</p>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="text-center">
+      <a href="/combine/{{result[0][2]}}"
+        ><button class="btn raise" style="border:1px solid rgb(255, 189, 189)">
+          Combine
+        </button></a
+      >
+      {% endif %}
+    </div>
+    <!-- ------------------ -->
+    {% if chats %}
+    <div class="container mt-4" style="width:90%">
+      <h4 class="text-center">Combined</h4>
+      <p>{{chats}}</p>
+    </div>
+    {% endif %}
+  </body>
+</html>
