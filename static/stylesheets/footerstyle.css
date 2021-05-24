@@ -1,0 +1,22 @@
+/* Footer */
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding-top: 24px;
+  padding-bottom: 24px;
+  background: rgb(63, 61, 86);
+  overflow: hidden;
+}
+.footer li:nth-of-type(n + 2) {
+  margin-left: 8px;
+}
+
+.fa {
+  color: whitesmoke;
+  font-size: 130%;
+}
+.fa:hover {
+  /* color: rgb(108, 99, 255); */
+  color: coral;
+}
